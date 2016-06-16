@@ -132,7 +132,7 @@ dolfin_methods =
 "memory_usage", "mesh", "min_value", "monitor_memory_usage", "mpi_comm_self",
 "mpi_comm_world", "multistage", "nabla_div", "nabla_grad", "ne", "near",
 "norm", "normalize", "not_working_in_parallel", "old_init", "outer", "p",
-"parameters", "perp", "pi", "plot", "product", "project", "q", "quadrilateral",
+"parameters", "perp", "plot", "product", "project", "q", "quadrilateral",
 "r", "rand", "rank", "refine", "register_element", "register_integral_type",
 "relabel", "replace", "replace_integral_domains", "residual", "rhs", "rot",
 "s", "seed", "sensitivity_rhs", "set_log_active", "set_log_level",
@@ -154,15 +154,22 @@ function __init__()
   end
 end
 
-import Base:+, -,*, ==, <<
+import Base:+, -,*,/, ==, <<
 import PyCall:isequal
 +(f::PyObject, g::PyObject) = operator[:add](f,g)
++(f::PyObject, g) = operator[:add](f,Constant(g))
+
 -(f::PyObject, g::PyObject) = operator[:sub](f,g)
+-(f::PyObject, g) = operator[:sub](f,Constant(g))
+
 *(f::PyObject, g::PyObject) = operator[:mul](f,g)
+*(f::PyObject, g) = operator[:mul](f,Constant(g))
+
+/(f::PyObject, g::PyObject) = operator[:div](f,g)
+/(f::PyObject, g) = operator[:div](f,Constant(g))
+
 ==(f::PyObject, g::PyObject) = operator[:eq](f,g)
 -(f::PyObject) = operator[:neg](f)
 <<(f::PyObject, g::PyObject) = operator[:lshift](f, g)
 
-
 end
-
