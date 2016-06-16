@@ -1,5 +1,3 @@
-include("../src/Dolfin.jl")
-
 using Dolfin
 
 import Dolfin:dot, Function, det
